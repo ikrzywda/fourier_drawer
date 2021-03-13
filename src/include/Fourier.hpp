@@ -1,13 +1,16 @@
 #ifndef FOURIER_HPP
 #define FOURIER_HPP
 
+#include "Complex.hpp"
+
 #include <cmath>
 #include <vector>
 
-typedef std::vector<int> X_n;
+typedef Complex<double> C;
+typedef std::vector<C> C_set;
 
-X_n *DFT(X_n input);    // Discrete Fourier Transform
+C_set *DFT(C_set input);    // Discrete Fourier Transform
 
-X_n *IDFT(X_n input);   // Inverse Discrete Fourier Transform 
+C IDFT(C_set x_k, int n);   // Inverse Discrete Fourier Transform 
 
 #endif
