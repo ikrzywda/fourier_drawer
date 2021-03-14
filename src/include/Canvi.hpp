@@ -15,7 +15,7 @@ void canvi_input(C_set &complex_points);
 
 void canvi_output(C_set *complex_points);
 
-void draw_IDFT(C_set *coeffs, VertexArray &drawing);
+void draw_IDFT(C_set &coeffs, VertexArray &drawing, unsigned n);
 
 void draw_plane(RenderWindow &window);
 

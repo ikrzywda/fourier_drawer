@@ -79,17 +79,15 @@ void canvi_output(C_set *input)
             }
             else if (Keyboard::isKeyPressed(Keyboard::K)) 
             {
-                if(event.type == Event::KeyReleased)
-                    ++n;
+                ++n;
             }
             else if (Keyboard::isKeyPressed(Keyboard::J))
             {
-                if(event.type == Event::KeyReleased)
-                    n > 0 ? --n : n;
+                n > 0 ? --n : n;
             }
                 
     text.setString(prompt + std::to_string(n));
-    draw_IDFT(input, drawing);
+    draw_IDFT(*input, drawing, n);
 
     window.clear();
     draw_plane(window);
@@ -99,22 +97,26 @@ void canvi_output(C_set *input)
     }
 }
 
-void draw_IDFT(C_set *coeffs, VertexArray &drawing)
+void draw_IDFT(C_set &x_k, VertexArray &drawing, unsigned n)
 {
-    unsigned i = 0;
-    int x = 0, y = 0;
+    C temp, x_n;
+    unsigned N = x_k.size();
+    double a = (2 * M_PI) / N, x;
 
-    for (double theta = 0; theta < (2 * M_PI); theta += 0.01)
+    for (unsigned t = 0; t < N; ++t)
     {
-        for (unsigned n = 0; n < coeffs->size(); ++n)
+        for (unsigned k = 0; k < n; ++k)
         {
-            x += coeffs->at(n).re + cos(n * theta);  
-            y += coeffs->at(n).im + sin(n * theta);  
-            drawing[i] = Vector2f(x + 400, y + 400);
-            ++i;
-        }
-    }
+            x = a * t * k;     
+            temp.re = cos(x);
+            temp.im = sin(x);
 
+            x_n += (temp * x_k[k]) / N;
+        }
+
+        drawing[t] = Vector2f(x_n.re + 400, -x_n.im + 400);
+        x_n = C(0,0);
+    }
 }
 
 void draw_plane(RenderWindow &window)
@@ -139,7 +141,7 @@ void convert_to_complex_plane(VertexArray &in, unsigned size, C_set &complex_set
 
     for (unsigned j = 0; j < size; ++j)
     {
-        r = -HALF_WINDOW_WIDTH + in[j].position.x;
+        r = in[j].position.x - HALF_WINDOW_WIDTH;
         i = HALF_WINDOW_HEIGHT - in[j].position.y;
 
         complex_set.push_back(C(r,i));

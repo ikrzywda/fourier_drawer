@@ -7,16 +7,15 @@
 
 int main()
 {
-    C_set c, *coeffs;
+    C_set c, *coeffs, *fs;
     canvi_input(c);
     coeffs = DFT(c);
+    fs = IDFT(*coeffs);
 
-    for(auto &a : *coeffs)
+    for(auto &a : *fs)
     {
         std::cout << a.re << "," << a.im << "i" << std::endl;
     }
    
-    coeffs->push_back(C(1,1));
-    coeffs->push_back(C(1,1));
     canvi_output(coeffs);
 }

@@ -47,6 +47,14 @@ struct Complex
         return *this;
     };
 
+    Complex operator/(T n)
+    {
+        this->re /= n;
+        this->im /= n;
+
+        return *this;
+    }
+
     Complex operator*(Complex n)
     {
         Complex t;

@@ -19,12 +19,33 @@ C_set *DFT(C_set input)
         }
 
         out->push_back(X_k);
+        X_k = C(0,0);
     }
 
     return out;
 }
 
-C IDFT(C_set *x_k, int n)
+C_set *IDFT(C_set x_k)
 {
-    return C();
+    C_set *fs = new C_set;
+    C temp, x_n;
+    unsigned N = x_k.size();
+    double a = (2 * M_PI) / N, x;
+
+    for (unsigned n = 0; n < N; ++n)
+    {
+        for (unsigned k = 0; k < N; ++k)
+        {
+            x = a * n * k;     
+            temp.re = cos(x);
+            temp.im = sin(x);
+
+            x_n += (temp * x_k[k]) / N;
+        }
+
+        fs->push_back(x_n);
+        x_n = C(0,0);
+    }
+
+    return fs;
 }
