@@ -24,6 +24,7 @@ def wrap_function(func_in, freq):
 
 
 def plot_complex(data, name):
+
     plt.plot(data[0].real, data[0].imag)
     plt.scatter(data[1].real, data[1].imag)
     plt.axhline(y=0, color='k')
